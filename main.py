@@ -52,7 +52,7 @@ def update_gate(external_url, crafty_url,username,password,begin_port,db_dir,gat
     for target_srv in servers_json['data']:
         srv_id = target_srv['server_id']
         srv_name = re.sub(r'[^a-zA-Z0-9]', '', target_srv['server_name'].replace(external_url, "")) #sanitise name input
-        srv_port = begin_port + index
+        srv_port = int(begin_port) + index
         endpoint_url = f"{srv_name}.{external_url}"
         qry = Query()
         #srch = db.search(qry.id == srv_id)
