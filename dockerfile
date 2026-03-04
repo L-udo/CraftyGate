@@ -1,8 +1,7 @@
 FROM python:3.12
 
-# Copy repo into container
-COPY . . 
-
+ADD main.py .
+ADD requirements.txt .
 # Install any requirements
 RUN pip install --no-cache-dir -r requirements.txt
 
