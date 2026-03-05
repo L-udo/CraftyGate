@@ -132,7 +132,7 @@ docker compose example:
         restart: unless-stopped
         environment:
           - EXTERNAL_PROXY_URL=<gate_proxy_domain>
-          - CRAFTY_CONTAINER_HOSTNAME= <api url of crafty>
+          - CRAFTY_CONTAINER_HOSTNAME= <root domain/hostname of crafty webui/api>
           - CRAFTY_USERNAME=<crafty_username>
           - CRAFTY_PASSWORD=<crafty_password>
           - STARTING_PORT=20000
