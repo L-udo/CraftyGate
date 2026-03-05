@@ -125,7 +125,22 @@ This section should list any major frameworks/libraries used to bootstrap your p
 Designed to run in docker compose or as an independent script
 
 docker compose example:
-
+```sh
+    craftygate:
+        image: almondl/craftygate:latest
+        container_name: craftygate
+        restart: unless-stopped
+        environment:
+          - EXTERNAL_PROXY_URL=TEST.mc.furmegle.com
+          - CRAFTY_CONTAINER_HOSTNAME= <api url of crafty>
+          - CRAFTY_USERNAME=<crafty_username>
+          - CRAFTY_PASSWORD=<crafty_password>
+          - STARTING_PORT=20000
+    
+        volumes:
+        - <gate_config_file>:/config.yml
+        - <crafty_server_folder:servers/
+```
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
