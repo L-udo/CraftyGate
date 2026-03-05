@@ -7,7 +7,9 @@ from jproperties import Properties
 from pathlib import Path
 import time
 import os
+from dotenv import load_dotenv
 
+load_dotenv()
 
 minecraft_subdomain_url_root = os.environ['EXTERNAL_PROXY_URL']
 crafty_container_hostname = f"https://{os.environ['CRAFTY_CONTAINER_HOSTNAME']}"
@@ -21,6 +23,7 @@ path_to_server_dir = 'servers'
 
 def update_gate(external_url, crafty_url,username,password,begin_port,db_dir,gate_dir,servers_dir):
 
+
     db = TinyDB(db_dir)
 
 
@@ -33,7 +36,7 @@ def update_gate(external_url, crafty_url,username,password,begin_port,db_dir,gat
     except:
         print("Failed to load gate config")
         #print(yaml.safe_dump(config))
-
+    
 
 
     authpayload = {'username':username, 'password':password}
@@ -45,7 +48,7 @@ def update_gate(external_url, crafty_url,username,password,begin_port,db_dir,gat
     list_servers = requests.get(f'{crafty_url}/api/v2/servers', headers=autheader)
     servers_json = list_servers.json() #json formatted list of servers
 
-    
+    #gateconfig.insert(1,dict('config','lite',enabled = 'true'),'routes',host = 'placeholder', backend = 'placeholder')
 
     #setting server ports & saving to db
     index = 0
@@ -72,8 +75,12 @@ def update_gate(external_url, crafty_url,username,password,begin_port,db_dir,gat
             writef.close()
 
         db.upsert({'id': srv_id, 'name': srv_name, 'port':srv_port,'proxyurl':endpoint_url }, qry.id == srv_id)
-        gateconfig['config']['lite']['routes'][index]['backend'] = f"{crafty_url}:{srv_port}" #write to gate config file obj
-        gateconfig['config']['lite']['routes'][index]['host'] = endpoint_url
+        #print(gateconfig)
+
+        #gateconfig['config']['lite']['routes'].append(dict(host = endpoint_url, backend = f"{crafty_url}:{srv_port}"))
+        
+        gateconfig['config']['lite']['routes'].insert(index,dict(host = endpoint_url, backend = f"{crafty_url}:{srv_port}"))
+        #gateconfig['config']['lite']['routes'].append(dict(backend = f"{crafty_url}:{srv_port}")) #write to gate config file obj
         index = index + 1
 
         
