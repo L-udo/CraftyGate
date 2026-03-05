@@ -150,10 +150,10 @@ docker compose example:
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] update config file on server removal
-- [ ] better documentation
-- [ ] write it again, but better
-- [ ] Add "components" document to easily
+- [ ] Update config file on server removal
+- [ ] Better documentation
+- [ ] Write it again, but better
+- [ ] Rename servers to matching proxy url
 
 See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a full list of proposed features (and known issues).
 
