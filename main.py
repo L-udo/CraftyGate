@@ -7,10 +7,7 @@ from jproperties import Properties
 from pathlib import Path
 import time
 import os
-from dotenv import load_dotenv
 
-
-load_dotenv()
 
 minecraft_subdomain_url_root = os.environ['EXTERNAL_PROXY_URL']
 crafty_container_hostname = f"https://{os.environ['CRAFTY_CONTAINER_HOSTNAME']}"
