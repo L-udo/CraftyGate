@@ -131,7 +131,7 @@ docker compose example:
         container_name: craftygate
         restart: unless-stopped
         environment:
-          - EXTERNAL_PROXY_URL=TEST.mc.furmegle.com
+          - EXTERNAL_PROXY_URL=<gate_proxy_domain>
           - CRAFTY_CONTAINER_HOSTNAME= <api url of crafty>
           - CRAFTY_USERNAME=<crafty_username>
           - CRAFTY_PASSWORD=<crafty_password>
