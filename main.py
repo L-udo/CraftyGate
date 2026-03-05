@@ -9,6 +9,7 @@ import time
 import os
 from dotenv import load_dotenv
 
+
 load_dotenv()
 
 minecraft_subdomain_url_root = os.environ['EXTERNAL_PROXY_URL']
@@ -29,29 +30,41 @@ def update_gate(external_url, crafty_url,username,password,begin_port,db_dir,gat
 
     yaml = YAML()
     yaml.preserve_quotes = True
-    try:
-        with open(gate_dir) as conf:
-            gateconfig = yaml.load(conf)
-            conf.close()
-    except:
-        print("Failed to load gate config")
-        #print(yaml.safe_dump(config))
+    
+    gateconfig = {
+        'config': {
+            'lite': {
+                'enabled': True,
+                'routes': []
+                }
+            }
+        }
+    
     
 
 
     authpayload = {'username':username, 'password':password}
 
     craftyapi_auth = requests.post(f'{crafty_url}/api/v2/auth/login', data=json.dumps(authpayload)) #request auth token
-    autheader = {'Authorization': craftyapi_auth.json()['data']['token']} #save auth token
+    try:
+        autheader = {'Authorization': craftyapi_auth.json()['data']['token']} #save auth token
+    except:
+        print(f'error: {craftyapi_auth}')
+        time.sleep(1000)
+        exit()
 
     #print("------------")
-    list_servers = requests.get(f'{crafty_url}/api/v2/servers', headers=autheader)
-    servers_json = list_servers.json() #json formatted list of servers
+    try:
+        list_servers = requests.get(f'{crafty_url}/api/v2/servers', headers=autheader)
+        servers_json = list_servers.json() #json formatted list of servers
+    except Exception as error:
+        print("Failed to get server list:", error)
 
     #gateconfig.insert(1,dict('config','lite',enabled = 'true'),'routes',host = 'placeholder', backend = 'placeholder')
 
     #setting server ports & saving to db
     index = 0
+    servers_sub_dict = []
     for target_srv in servers_json['data']:
         srv_id = target_srv['server_id']
         srv_name = re.sub(r'[^a-zA-Z0-9]', '', target_srv['server_name'].replace(external_url, "")) #sanitise name input
@@ -74,20 +87,29 @@ def update_gate(external_url, crafty_url,username,password,begin_port,db_dir,gat
             jconfigfile.store(writef, encoding="utf-8")
             writef.close()
 
+
+    
         db.upsert({'id': srv_id, 'name': srv_name, 'port':srv_port,'proxyurl':endpoint_url }, qry.id == srv_id)
         #print(gateconfig)
 
         #gateconfig['config']['lite']['routes'].append(dict(host = endpoint_url, backend = f"{crafty_url}:{srv_port}"))
         
-        gateconfig['config']['lite']['routes'].insert(index,dict(host = endpoint_url, backend = f"{crafty_url}:{srv_port}"))
+        servers_sub_dict.insert(index,dict(host = endpoint_url, backend = f"{crafty_url}:{srv_port}"))
         #gateconfig['config']['lite']['routes'].append(dict(backend = f"{crafty_url}:{srv_port}")) #write to gate config file obj
         index = index + 1
-
+    gateconfig['config']['lite']['routes'] = servers_sub_dict
+    #print(servers_sub_dict)
+    try:    
+        with open('config.yml', 'w') as file: #save gate config file
+            yaml.dump(gateconfig, file)
+            file.close
+        print("Gate Config File Updated")
         
-    with open('config.yml', 'w') as file: #save gate config file
-        yaml.dump(gateconfig, file)
-        file.close
-    print("Gate Config File Updated")
+    except Exception as error:
+        print("Config.yml Error:", error)
+               
+    print("Waiting for new changes...")
+    index = 0
 
 
 
