@@ -8,7 +8,6 @@ from pathlib import Path
 import time
 import os
 
-
 minecraft_subdomain_url_root = os.environ['EXTERNAL_PROXY_URL']
 crafty_container_hostname = f"https://{os.environ['CRAFTY_CONTAINER_HOSTNAME']}"
 crafty_username = os.environ['CRAFTY_USERNAME']

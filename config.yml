@@ -1,0 +1,18 @@
+config:
+  lite:
+    enabled: true
+    routes:
+    - host: test2.TEST.mc.furmegle.com
+      backend: https://crafty.home.furmegle.com:20000
+    - host: pi13cklesmcfurmeglecom.TEST.mc.furmegle.com
+      backend: https://crafty.home.furmegle.com:20001
+    - host: PEN.TEST.mc.furmegle.com
+      backend: https://crafty.home.furmegle.com:20002
+    - host: GHIDRA.TEST.mc.furmegle.com
+      backend: https://crafty.home.furmegle.com:20003
+    - host: AHHHHHHHHHH.TEST.mc.furmegle.com
+      backend: https://crafty.home.furmegle.com:20004
+    - host: UPDATedTES.TEST.mc.furmegle.com
+      backend: https://crafty.home.furmegle.com:20005
+    - host: wakakakakak.TEST.mc.furmegle.com
+      backend: https://crafty.home.furmegle.com:20006
