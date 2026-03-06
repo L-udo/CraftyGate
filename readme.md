@@ -23,11 +23,10 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
-  </a>
+<img width="804" height="242" alt="craftygate" src="https://github.com/user-attachments/assets/479384e8-eaa2-4b85-9743-af5566bfe9a7" />
 
-  <h3 align="center">Best-README-Template</h3>
+
+  <h3 align="center">CraftyGate</h3>
 
   <p align="center">
     An awesome README template to jumpstart your projects!
