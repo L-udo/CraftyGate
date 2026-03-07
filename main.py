@@ -74,11 +74,11 @@ def update_gate(external_url, crafty_url,username,password,begin_port,gate_dir,s
         qry = Query()
         #srch = db.search(qry.id == srv_id)
     
-        row_id = int(db.upsert({'id': srv_id, 'name': srv_name, 'port': 0 ,'proxyurl':endpoint_url }, qry.id == srv_id))
-        if row_id != 0:
+        row_id = int(db.upsert({'id': srv_id, 'name': srv_name, 'port': begin_port ,'proxyurl':endpoint_url }, qry.id == srv_id)[0])
+        if row_id != 1:
             new_port = begin_port + row_id
-            db.update({'port':new_port}, doc_id=row_id)
-        elif row_id == 0:
+            db.update({'port':new_port}, doc_ids=[row_id])
+        elif row_id == 1:
             new_port = begin_port
 
         
