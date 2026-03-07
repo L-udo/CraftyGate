@@ -13,7 +13,6 @@ import os
 minecraft_subdomain_url_root = os.environ['EXTERNAL_PROXY_URL']
 crafty_container_hostname = f"https://{os.environ['CRAFTY_CONTAINER_HOSTNAME']}"
 
-
 crafty_api_key = os.environ['CRAFTY_API_KEY']
 
 start_port = os.environ['STARTING_PORT']
@@ -42,10 +41,6 @@ def update_gate(external_url, crafty_url,begin_port,gate_dir,servers_dir,db_dir,
     
     
 
-
-    #authpayload = {'username':username, 'password':password}
-
-    #craftyapi_auth = requests.post(f'{crafty_url}/api/v2/auth/login', data=json.dumps(authpayload)) #request auth token
     try:
         autheader = {'Authorization': api_key} #save auth token
     except:
