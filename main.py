@@ -8,6 +8,8 @@ from pathlib import Path
 import time
 import os
 
+
+
 minecraft_subdomain_url_root = os.environ['EXTERNAL_PROXY_URL']
 crafty_container_hostname = f"https://{os.environ['CRAFTY_CONTAINER_HOSTNAME']}"
 crafty_username = os.environ['CRAFTY_USERNAME']
@@ -18,7 +20,7 @@ gate_config_file_dir = 'config.yml'
 path_to_server_dir = 'servers'
 
 
-def update_gate(external_url, crafty_url,username,password,begin_port,db_dir,gate_dir,servers_dir):
+def update_gate(external_url, crafty_url,username,password,begin_port,gate_dir,servers_dir,db_dir):
 
 
     db = TinyDB(db_dir)
@@ -46,7 +48,7 @@ def update_gate(external_url, crafty_url,username,password,begin_port,db_dir,gat
         autheader = {'Authorization': craftyapi_auth.json()['data']['token']} #save auth token
     except:
         print(f'error: {craftyapi_auth}')
-        time.sleep(1000)
+        #time.sleep(1000)
         exit()
 
     #print("------------")
@@ -56,7 +58,6 @@ def update_gate(external_url, crafty_url,username,password,begin_port,db_dir,gat
     except Exception as error:
         print("Failed to get server list:", error)
 
-    #gateconfig.insert(1,dict('config','lite',enabled = 'true'),'routes',host = 'placeholder', backend = 'placeholder')
 
     #setting server ports & saving to db
     index = 0
@@ -64,45 +65,66 @@ def update_gate(external_url, crafty_url,username,password,begin_port,db_dir,gat
     for target_srv in servers_json['data']:
         srv_id = target_srv['server_id']
         srv_name = re.sub(r'[^a-zA-Z0-9]', '', target_srv['server_name'].replace(external_url, "")) #sanitise name input
-        srv_port = int(begin_port) + index
-        endpoint_url = f"{srv_name}.{external_url}"
-        qry = Query()
-        #srch = db.search(qry.id == srv_id)
+        begin_port = int(begin_port)
+        endpoint_url = f"{srv_name}.{external_url}" #combine into subdomain for server
         jconfigfile = Properties() #server.properties object
         print(f"detected {srv_name}")
+        
+        
+        qry = Query()
+        #srch = db.search(qry.id == srv_id)
+    
+        row_id = int(db.upsert({'id': srv_id, 'name': srv_name, 'port': 0 ,'proxyurl':endpoint_url }, qry.id == srv_id))
+        if row_id != 0:
+            new_port = begin_port + row_id
+            db.update({'port':new_port}, doc_id=row_id)
+        elif row_id == 0:
+            new_port = begin_port
+
+        
         file_path = Path(f"{servers_dir}/{srv_id}/server.properties")
         while file_path.is_file() != True: #wait for config file to exist
             time.sleep(1)
 
         with open(f"{servers_dir}/{srv_id}/server.properties", 'rb') as readf:
             jconfigfile.load(readf,"utf-8")
-            jconfigfile["server-port"] = str(srv_port)
+            jconfigfile["server-port"] = str(new_port) #update server port in server.properties file
             readf.close()
 
         with open(f"{servers_dir}/{srv_id}/server.properties", 'wb') as writef:
             jconfigfile.store(writef, encoding="utf-8")
             writef.close()
-
-
+        
+        
     
-        db.upsert({'id': srv_id, 'name': srv_name, 'port':srv_port,'proxyurl':endpoint_url }, qry.id == srv_id)
+        
+        new_server_name = {'server_name': endpoint_url}  
+        try:
+            requests.patch(f'{crafty_url}/api/v2/servers/{srv_id}', headers=autheader, data=json.dumps(new_server_name)) #update server name to match subdomain
+        except Exception as error:
+            print(f"Failed to update server name for {srv_name}:", error)
+        
         #print(gateconfig)
 
         #gateconfig['config']['lite']['routes'].append(dict(host = endpoint_url, backend = f"{crafty_url}:{srv_port}"))
         
-        servers_sub_dict.insert(index,dict(host = endpoint_url, backend = f"{crafty_url}:{srv_port}"))
+        servers_sub_dict.insert(index,dict(host = endpoint_url, backend = f"{crafty_url}:{new_port}")) #create sub dict for server in gate config file
+        
         #gateconfig['config']['lite']['routes'].append(dict(backend = f"{crafty_url}:{srv_port}")) #write to gate config file obj
         index = index + 1
     gateconfig['config']['lite']['routes'] = servers_sub_dict
     #print(servers_sub_dict)
     try:    
-        with open('config.yml', 'w') as file: #save gate config file
+        with open(gate_dir, 'w') as file: #save gate config file
             yaml.dump(gateconfig, file)
             file.close
         print("Gate Config File Updated")
         
     except Exception as error:
         print("Config.yml Error:", error)
+        
+    requests.post(f'{crafty_url}/api/v2/auth/invalidate_tokens', headers=autheader) #invalidate auth token
+
                
     print("Waiting for new changes...")
     index = 0
@@ -121,7 +143,7 @@ print("waiting for dir changes")
 while True:
     if len(os.listdir(path_to_server_dir)) != dir_depth:
         dir_depth = len(os.listdir(path_to_server_dir))
-        update_gate(minecraft_subdomain_url_root,crafty_container_hostname,crafty_username,crafty_password,start_port,db_file_dir,gate_config_file_dir,path_to_server_dir)
+        update_gate(minecraft_subdomain_url_root,crafty_container_hostname,crafty_username,crafty_password,start_port,gate_config_file_dir,path_to_server_dir,db_file_dir)
     else:
         time.sleep(1)
 
