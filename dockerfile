@@ -4,7 +4,7 @@ COPY main.py .
 COPY requirements.txt .
 RUN touch config.yml
 RUN touch servers.json
-RUN mkdir /servers
+RUN mkdir /app/servers
 # Install any requirements
 RUN pip install --no-cache-dir -r requirements.txt
 
