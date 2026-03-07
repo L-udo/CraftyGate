@@ -46,8 +46,8 @@
 This is a simple python script to automate the creation & updating of the Minekube Gate(Lite Mode Only no bedrock support) config.yml
 
 Here's why:
-* I dont know why this doesnt exist already, it's dead simple and not that hard to implement?
-* The method of subdomain creation that pterodactyl.io uses is honestly a very weird and cumbersome appoach.
+* I dont know why this doesnt exist already?
+* The method of subdomain creation that pterodactyl.io uses is honestly an odd and cumbersome approach, but i understand the purpose.
 * Removing the reliance on services like cloudflare for subdomain creation, its far easier to use a simple reverse proxy
 
 
