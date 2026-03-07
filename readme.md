@@ -103,10 +103,10 @@ docker compose example:
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Update config file on server removal
+- [x] Update config file on server removal
 - [ ] Better documentation
 - [ ] Write it again, but better
-- [ ] Rename servers to matching proxy url
+- [x] Rename servers to matching proxy url
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
