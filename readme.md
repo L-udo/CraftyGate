@@ -107,6 +107,8 @@ docker compose example:
 - [ ] Better documentation
 - [ ] Write it again, but better
 - [x] Rename servers to matching proxy url
+- [x] servers get fixed ports based on server id, so ports dont get shuffled on server deletion
+- [ ] idk what to do when the server db gets full, we will get there when we get there
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
