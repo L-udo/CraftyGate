@@ -12,8 +12,7 @@ import os
 
 minecraft_subdomain_url_root = os.environ['EXTERNAL_PROXY_URL']
 crafty_container_hostname = f"https://{os.environ['CRAFTY_CONTAINER_HOSTNAME']}"
-crafty_username = os.environ['CRAFTY_USERNAME']
-crafty_password = os.environ['CRAFTY_PASSWORD']
+
 
 crafty_api_key = os.environ['CRAFTY_API_KEY']
 
