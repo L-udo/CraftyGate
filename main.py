@@ -14,13 +14,16 @@ minecraft_subdomain_url_root = os.environ['EXTERNAL_PROXY_URL']
 crafty_container_hostname = f"https://{os.environ['CRAFTY_CONTAINER_HOSTNAME']}"
 crafty_username = os.environ['CRAFTY_USERNAME']
 crafty_password = os.environ['CRAFTY_PASSWORD']
+
+crafty_api_key = os.environ['CRAFTY_API_KEY']
+
 start_port = os.environ['STARTING_PORT']
 db_file_dir = '/app/servers.json'
 gate_config_file_dir = '/app/config.yml'
 path_to_server_dir = '/app/servers'
 
 
-def update_gate(external_url, crafty_url,username,password,begin_port,gate_dir,servers_dir,db_dir):
+def update_gate(external_url, crafty_url,begin_port,gate_dir,servers_dir,db_dir,api_key):
 
 
     db = TinyDB(db_dir)
@@ -41,11 +44,11 @@ def update_gate(external_url, crafty_url,username,password,begin_port,gate_dir,s
     
 
 
-    authpayload = {'username':username, 'password':password}
+    #authpayload = {'username':username, 'password':password}
 
-    craftyapi_auth = requests.post(f'{crafty_url}/api/v2/auth/login', data=json.dumps(authpayload)) #request auth token
+    #craftyapi_auth = requests.post(f'{crafty_url}/api/v2/auth/login', data=json.dumps(authpayload)) #request auth token
     try:
-        autheader = {'Authorization': craftyapi_auth.json()['data']['token']} #save auth token
+        autheader = {'Authorization': api_key} #save auth token
     except:
         print(f'error: {craftyapi_auth}')
         #time.sleep(1000)
@@ -123,8 +126,6 @@ def update_gate(external_url, crafty_url,username,password,begin_port,gate_dir,s
     except Exception as error:
         print("Config.yml Error:", error)
         
-    requests.post(f'{crafty_url}/api/v2/auth/invalidate_tokens', headers=autheader) #invalidate auth token
-
                
     print("Waiting for new changes...")
     index = 0
@@ -143,7 +144,7 @@ print("waiting for dir changes")
 while True:
     if len(os.listdir(path_to_server_dir)) != dir_depth:
         dir_depth = len(os.listdir(path_to_server_dir))
-        update_gate(minecraft_subdomain_url_root,crafty_container_hostname,crafty_username,crafty_password,start_port,gate_config_file_dir,path_to_server_dir,db_file_dir)
+        update_gate(minecraft_subdomain_url_root,crafty_container_hostname,start_port,gate_config_file_dir,path_to_server_dir,db_file_dir,crafty_api_key)
     else:
         time.sleep(1)
 
