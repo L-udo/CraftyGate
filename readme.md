@@ -80,7 +80,7 @@ Designed to run in docker compose or as an independent script
 docker compose example:
 ```sh
     craftygate:
-        image: lvd00/craftygate:v1.0.7
+        image: lvd00/craftygate:v1.0.8
         container_name: craftygate
         #restart: unless-stopped
         environment:
