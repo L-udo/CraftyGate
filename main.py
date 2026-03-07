@@ -17,7 +17,7 @@ crafty_password = os.environ['CRAFTY_PASSWORD']
 start_port = os.environ['STARTING_PORT']
 db_file_dir = 'servers.json'
 gate_config_file_dir = 'config.yml'
-path_to_server_dir = 'servers'
+path_to_server_dir = '/servers'
 
 
 def update_gate(external_url, crafty_url,username,password,begin_port,gate_dir,servers_dir,db_dir):

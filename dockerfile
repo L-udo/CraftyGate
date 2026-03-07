@@ -2,8 +2,9 @@ FROM python:3.12
 WORKDIR /app
 COPY main.py .
 COPY requirements.txt .
-COPY config.yml .
-COPY servers.json .
+RUN touch config.yml
+RUN touch servers.json
+RUN mkdir /servers
 # Install any requirements
 RUN pip install --no-cache-dir -r requirements.txt
 
