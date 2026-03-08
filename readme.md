@@ -80,9 +80,9 @@ Designed to run in docker compose or as an independent script
 docker compose example:
 ```sh
     craftygate:
-        image: lvd00/craftygate:v1
+        image: lvd00/craftygate:v1.0.6
         container_name: craftygate
-        restart: unless-stopped
+        #restart: unless-stopped
         environment:
           - EXTERNAL_PROXY_URL=<gate_proxy_domain>
           - CRAFTY_CONTAINER_HOSTNAME= <root domain/hostname of crafty webui/api>
@@ -91,8 +91,9 @@ docker compose example:
           - STARTING_PORT=20000
     
         volumes:
-        - <gate_config_file>:/config.yml
-        - <crafty_server_folder:servers/
+        - <PATH TO servers.json file>:/app/servers.json
+        - <PATH TO GATE config.yml file>:/app/config.yml
+        - <PATH TO CRAFTY servers FOLDER>:/app/servers/
 ```
 
 
