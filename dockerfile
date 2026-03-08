@@ -9,4 +9,4 @@ RUN mkdir /app/servers
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Run Python program
-CMD [ "python", "./main.py" ]
+CMD [ "python","-u","./main.py" ]
