@@ -91,8 +91,9 @@ docker compose example:
     
         volumes:
         - <PATH TO servers.json file>:/app/servers.json
-        - <PATH TO GATE config.yml file>:/app/config.yml
+        - <PATH TO GATE config.yml file>:/app/config.yml 
         - <PATH TO CRAFTY servers FOLDER>:/app/servers/
+#please create a .json & .yml file before running the container
 ```
 
 
