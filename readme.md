@@ -82,7 +82,7 @@ docker compose example:
     craftygate:
         image: lvd00/craftygate:v1.0.8
         container_name: craftygate
-        #restart: unless-stopped
+        restart: unless-stopped
         environment:
           - EXTERNAL_PROXY_URL=<gate_proxy_domain>
           - CRAFTY_CONTAINER_HOSTNAME= <domain/hostname of crafty webui/api>
