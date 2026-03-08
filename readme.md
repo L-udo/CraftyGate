@@ -86,7 +86,7 @@ docker compose example:
         environment:
           - EXTERNAL_PROXY_URL=<gate_proxy_domain>
           - CRAFTY_CONTAINER_HOSTNAME= <root domain/hostname of crafty webui/api>
-          - crafty_api_key=<Crafty_api_key>
+          - CRAFTY_API_KEY=<Crafty_api_key>
           - STARTING_PORT=20000
     
         volumes:
