@@ -161,8 +161,10 @@ submit an issue on this repo
 
 * [jproperties](https://choosealicense.com](https://pypi.org/project/jproperties/))
 * [requests](https://www.webpagefx.com/tools/emoji-cheat-sheet](https://pypi.org/project/requests/))
-* [ruamel.yaml](https://flexbox.malven.co/](https://pypi.org/project/ruamel.yaml/))
-* [tinydb](https://grid.malven.co/](https://pypi.org/project/tinydb/))
+* [ruamel.yaml](https://pypi.org/project/ruamel.yaml/))
+* [tinydb](https://pypi.org/project/tinydb/)
+*
+[readme_template](https://github.com/othneildrew/Best-README-Template)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
