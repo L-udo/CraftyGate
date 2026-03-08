@@ -158,7 +158,6 @@ submit an issue on this repo
 <!-- ACKNOWLEDGMENTS -->
 ## libraries usesd
 
-Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
 
 * [jproperties](https://choosealicense.com](https://pypi.org/project/jproperties/))
 * [requests](https://www.webpagefx.com/tools/emoji-cheat-sheet](https://pypi.org/project/requests/))
