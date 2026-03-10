@@ -46,8 +46,8 @@
 This is a simple python script to automate the creation & updating of the Minekube Gate(Lite Mode Only no bedrock support) config.yml
 
 Here's why:
-* I dont know why this doesnt exist already, it's dead simple and not that hard to implement?
-* The method of subdomain creation that pterodactyl.io uses is honestly a very weird and cumbersome appoach.
+* I dont know why this doesnt exist already?
+* The method of subdomain creation that pterodactyl.io uses is honestly an odd and cumbersome approach, but i understand the purpose.
 * Removing the reliance on services like cloudflare for subdomain creation, its far easier to use a simple reverse proxy
 
 
@@ -82,17 +82,18 @@ docker compose example:
     craftygate:
         image: lvd00/craftygate:v1.0.8
         container_name: craftygate
-        #restart: unless-stopped
+        restart: unless-stopped
         environment:
           - EXTERNAL_PROXY_URL=<gate_proxy_domain>
-          - CRAFTY_CONTAINER_HOSTNAME= <root domain/hostname of crafty webui/api>
-          - crafty_api_key=<Crafty_api_key>
+          - CRAFTY_CONTAINER_HOSTNAME= <domain/hostname of crafty webui/api>
+          - CRAFTY_API_KEY=<Crafty_api_key>
           - STARTING_PORT=20000
     
         volumes:
         - <PATH TO servers.json file>:/app/servers.json
-        - <PATH TO GATE config.yml file>:/app/config.yml
+        - <PATH TO GATE config.yml file>:/app/config.yml 
         - <PATH TO CRAFTY servers FOLDER>:/app/servers/
+#please create a .json & .yml file before running the container
 ```
 
 
@@ -157,12 +158,13 @@ submit an issue on this repo
 <!-- ACKNOWLEDGMENTS -->
 ## libraries usesd
 
-Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
 
 * [jproperties](https://choosealicense.com](https://pypi.org/project/jproperties/))
 * [requests](https://www.webpagefx.com/tools/emoji-cheat-sheet](https://pypi.org/project/requests/))
-* [ruamel.yaml](https://flexbox.malven.co/](https://pypi.org/project/ruamel.yaml/))
-* [tinydb](https://grid.malven.co/](https://pypi.org/project/tinydb/))
+* [ruamel.yaml](https://pypi.org/project/ruamel.yaml/))
+* [tinydb](https://pypi.org/project/tinydb/)
+*
+[readme_template](https://github.com/othneildrew/Best-README-Template)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
