@@ -11,17 +11,16 @@ import os
 
 
 minecraft_subdomain_url_root = os.environ['EXTERNAL_PROXY_URL']
-crafty_container_hostname = f"https://{os.environ['CRAFTY_CONTAINER_HOSTNAME']}"
-
+crafty_container_api_url = os.environ['CRAFTY_CONTAINER_HOSTNAME']
+crafty_container_ip = os.environ['CRAFTY_CONTAINER_ip']
 crafty_api_key = os.environ['CRAFTY_API_KEY']
-
 start_port = os.environ['STARTING_PORT']
 db_file_dir = '/app/servers.json'
 gate_config_file_dir = '/app/config.yml'
 path_to_server_dir = '/app/servers'
 
 
-def update_gate(external_url, crafty_url,begin_port,gate_dir,servers_dir,db_dir,api_key):
+def update_gate(external_url, crafty_url,begin_port,gate_dir,servers_dir,db_dir,api_key,container_ip):
 
 
     db = TinyDB(db_dir)
@@ -43,11 +42,10 @@ def update_gate(external_url, crafty_url,begin_port,gate_dir,servers_dir,db_dir,
 
     try:
         autheader = {'Authorization': api_key} #save auth token
-    except:
-        print(f'error: {craftyapi_auth}')
+    except Exception as error:
+        print(f'error: {error}')
         #time.sleep(1000)
         exit()
-
     #print("------------")
     try:
         list_servers = requests.get(f'{crafty_url}/api/v2/servers', headers=autheader)
@@ -105,7 +103,7 @@ def update_gate(external_url, crafty_url,begin_port,gate_dir,servers_dir,db_dir,
 
         
         
-        servers_sub_dict.insert(index,dict(host = endpoint_url, backend = f"{crafty_url}:{new_port}")) #create sub dict for server in gate config file
+        servers_sub_dict.insert(index,dict(host = endpoint_url, backend = f"{container_ip}:{new_port}")) #create sub dict for server in gate config file
         
       
         index = index + 1
@@ -138,7 +136,7 @@ print("waiting for dir changes")
 while True:
     if len(os.listdir(path_to_server_dir)) != dir_depth:
         dir_depth = len(os.listdir(path_to_server_dir))
-        update_gate(minecraft_subdomain_url_root,crafty_container_hostname,start_port,gate_config_file_dir,path_to_server_dir,db_file_dir,crafty_api_key)
+        update_gate(minecraft_subdomain_url_root,crafty_container_api_url,start_port,gate_config_file_dir,path_to_server_dir,db_file_dir,crafty_api_key,crafty_container_ip)
     else:
         time.sleep(1)
 
