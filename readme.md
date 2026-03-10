@@ -80,13 +80,14 @@ Designed to run in docker compose or as an independent script
 docker compose example:
 ```sh
     craftygate:
-        image: lvd00/craftygate:v1.0.8
+        image: lvd00/craftygate:v1.1.0
         container_name: craftygate
         restart: unless-stopped
         environment:
           - EXTERNAL_PROXY_URL=<gate_proxy_domain>
           - CRAFTY_CONTAINER_HOSTNAME= <domain/hostname of crafty webui/api>
           - CRAFTY_API_KEY=<Crafty_api_key>
+          - CRAFTY_CONTAINER_ip=<Crafty_container_ip>
           - STARTING_PORT=20000
     
         volumes:
