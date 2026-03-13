@@ -80,7 +80,7 @@ Designed to run in docker compose or as an independent script
 docker compose example:
 ```sh
     craftygate:
-        image: lvd00/craftygate:v1.1.1
+        image: lvd00/craftygate:latest
         container_name: craftygate
         restart: unless-stopped
         environment:
@@ -91,7 +91,7 @@ docker compose example:
           - STARTING_PORT=20000
     
         volumes:
-        - <PATH TO servers.json file>:/app/servers.json
+        - <PATH TO CraftyGate dir >:/app/db
         - <PATH TO GATE config.yml file>:/app/config.yml 
         - <PATH TO CRAFTY servers FOLDER>:/app/servers/
 #please create a .json & .yml file before running the container

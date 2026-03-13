@@ -10,14 +10,22 @@ import os
 
 
 
+
 minecraft_subdomain_url_root = os.environ['EXTERNAL_PROXY_URL']
 crafty_container_api_url = os.environ['CRAFTY_API_URL']
 crafty_container_ip = os.environ['CRAFTY_CONTAINER_IP']
 crafty_api_key = os.environ['CRAFTY_API_KEY']
 start_port = os.environ['STARTING_PORT']
-db_file_dir = '/app/servers.json'
+db_file_dir = '/app/db/servers.json'
 gate_config_file_dir = '/app/config.yml'
 path_to_server_dir = '/app/servers'
+
+try:
+    open(db_file_dir, 'a').close() #laziest possible way to quickly create servers.json file before actually writing to it
+except Exception as error:
+    print(f'failed to create servers.json:{error}')
+
+
 
 
 def update_gate(external_url, crafty_url,begin_port,gate_dir,servers_dir,db_dir,api_key,container_ip):
